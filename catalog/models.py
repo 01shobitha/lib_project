@@ -38,6 +38,8 @@ class Book(models.Model):
     # ManyToManyField used because genre can contain many books. Books can cover many genres.
     # Genre class has already been defined so we can specify the object above.
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
+
 
     def __str__(self):
         """String for representing the Model object."""
@@ -80,7 +82,7 @@ class BookInstance(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return '{0} ({1})'.format(self.last_name,self.first_name)
+        return self.imprint
 
 class Author(models.Model):
     """Model representing an author."""
