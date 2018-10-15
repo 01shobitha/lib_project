@@ -1,5 +1,5 @@
 {% extends "base_generic.html" %}
-
+{% block title %}Library Catalog{% endblock %}
 {% block content %}
   <h1>Local Library Home</h1>
   <p>Welcome to LocalLibrary, a website developed by <em>Mozilla Developer Network</em>!</p>
@@ -10,5 +10,6 @@
     <li><strong>Copies:</strong> {{ num_instances }}</li>
     <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
     <li><strong>Authors:</strong> {{ num_authors }}</li>
+    <li><strong>Genres:</strong> {{num_genres}}</li>
   </ul>
 {% endblock %}
