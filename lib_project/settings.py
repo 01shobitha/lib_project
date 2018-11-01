@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', ')j*3#2wr4qnj*z#3vd#%0s3d2@vpb%
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['spooky-moonlight-10489.herokuapp.com']
 
 
 # Application definition
