@@ -146,3 +146,18 @@ class BookUpdate(UpdateView):
 class BookDelete(DeleteView):
     model=Book
     success_url=reverse_lazy('books')
+
+def request_page(request):
+    time = timezone.now()
+    book=Book(Changetime)
+    if(request.method=='GET'):
+        if(book.Changetime==True):
+            time = datetime.strftime(time,"%H:%M")
+            book.Changetime=False
+        else:
+            time = datetime.strftime(time, "%I:%M %p")
+            book.Changetime=True
+        context = {
+        'time': time,
+        }
+    return render(request, 'request_page.html', context)
