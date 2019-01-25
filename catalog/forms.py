@@ -19,3 +19,11 @@ class RenewBookForm(forms.Form):
             raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
 
         return data
+
+CONTEXT = (
+    ("12_hours", "12 hours"),
+    ("24_hours", "24 hours")
+)
+
+class TimeForm(forms.Form):
+    display_type = forms.ChoiceField(widget=forms.RadioSelect, choices=CONTEXT)

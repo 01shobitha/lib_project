@@ -8,10 +8,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from catalog.forms import RenewBookForm
+from catalog.forms import RenewBookForm, TimeForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from catalog.models import Author
+from django.utils import timezone
 
 # Create your views here.
 
@@ -29,6 +30,7 @@ def index(request):
 
     # The 'all()' is implied by default.
     num_authors = Author.objects.count()
+    time =timezone.now()
 
     # Number of visits to this view, as counted in the session variable.
     num_visits = request.session.get('num_visits', 0)
@@ -41,6 +43,7 @@ def index(request):
         'num_authors': num_authors,
         'num_genres':num_genres,
         'num_visits': num_visits,
+        'time': time,
     }
 
     # Render the HTML template index.html with the data in the context variable
@@ -147,17 +150,32 @@ class BookDelete(DeleteView):
     model=Book
     success_url=reverse_lazy('books')
 
-def request_page(request):
-    time = timezone.now()
-    book=Book(Changetime)
-    if(request.method=='GET'):
-        if(book.Changetime==True):
-            time = datetime.strftime(time,"%H:%M")
-            book.Changetime=False
-        else:
-            time = datetime.strftime(time, "%I:%M %p")
-            book.Changetime=True
-        context = {
-        'time': time,
-        }
-    return render(request, 'request_page.html', context)
+# def request_page(request):
+#     time = timezone.now()
+#     book=Book(Changetime)
+#     if(request.method=='GET'):
+#         if(book.Changetime==True):
+#             time = datetime.strftime(time,"%H:%M")
+#             book.Changetime=False
+#         else:
+#             time = datetime.strftime(time, "%I:%M %p")
+#             book.Changetime=True
+#         context = {
+#         'time': time,
+#         }
+#     return render(request, 'request_page.html', context)
+
+def time_view(request):
+    form = TimeForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            display_type = request.POST.get("display_type", None)
+            # if display_type in ["12_hours", "24_hours"]:
+            if display_type =="12_hours":
+                Changetime=True
+            else:
+                Changetime=False
+    context = {
+        'Changetime': Changetime,
+    }
+    return render(request, 'index.html', {'form': form}, context=context)

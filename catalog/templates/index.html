@@ -11,9 +11,16 @@
     <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
     <li><strong>Authors:</strong> {{ num_authors }}</li>
     <li><strong>Genres:</strong> {{num_genres}}</li>
+    <li><strong>Time:</strong> {{ time }}</li>
+    <li><strong>{% if Changetime %}It is {% now " h:i" %} {% else %}It is {% now " H:i" %}{% endif %}</li>
   </ul>
-  <form action ="#" method="get">
-<input type="submit" value="changetime" name="mybtn">
+
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <label for="12_hours"><input type="radio" name="display_type" value="12_hours" id="12_hours">12 hours</label>
+    <label for="24_hours"><input type="radio" name="display_type" value="24_hours" id="24_hours">24 hours</label>
+    <input type="submit">
 </form>
   <p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
 {% endblock %}
