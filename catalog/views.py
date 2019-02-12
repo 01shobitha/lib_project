@@ -13,6 +13,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from catalog.models import Author
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -165,17 +166,24 @@ class BookDelete(DeleteView):
 #         }
 #     return render(request, 'request_page.html', context)
 
+@login_required
 def time_view(request):
     form = TimeForm(request.POST or None)
+    current_user = request.user
+    entry = get_object_or_404(Book, id=current_user.id)
+    print(current_user.id)
+    #entry = Book.objects.get(id=current_user.id)
+    bool = False
+    # boolField = Book.Changetime
     if request.method == "POST":
         if form.is_valid():
-            display_type = request.POST.get("display_type", None)
+            #display_type = request.POST.get("display_type", None)
+            display_type=form.cleaned_data['display_type']
             # if display_type in ["12_hours", "24_hours"]:
-            if display_type =="12_hours":
-                Changetime=True
-            else:
-                Changetime=False
+            if display_type == "12_hours":
+                bool=True
     context = {
-        'Changetime': Changetime,
+        'bool': bool,
+        'form': form,
     }
-    return render(request, 'index.html', {'form': form}, context=context)
+    return render(request, 'index.html', context=context)

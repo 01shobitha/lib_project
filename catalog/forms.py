@@ -26,4 +26,4 @@ CONTEXT = (
 )
 
 class TimeForm(forms.Form):
-    display_type = forms.ChoiceField(widget=forms.RadioSelect, choices=CONTEXT)
+    display_type = forms.ChoiceField(choices=CONTEXT)
